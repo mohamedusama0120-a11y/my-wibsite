@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة خاصة جداً 🥰</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6ea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 75, 110, 0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        h1 { color: #ff4b6e; margin-bottom: 10px; }
+        p { color: #555; font-size: 1.1rem; }
+        .gif-container { font-size: 50px; margin: 20px 0; }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff4b6e;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus, select:focus { border-color: #ff4b6e; }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            position: relative;
+            height: 50px;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+        #yesBtn { background-color: #ff4b6e; color: white; }
+        #yesBtn:hover { background-color: #e03a5c; transform: scale(1.05); }
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #555;
+            position: absolute;
+            left: 25%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="questionPage">
+        <div class="gif-container">💌</div>
+        <h1>هل تقبلين الخروج معي يا فستكه؟</h1>
+        <p>أتمنى حقاً أن توافقي، لقد خططت لشيء مميز! ✨</p>
+        
+        <div class="btn-group">
+            <button id="yesBtn" onclick="nextPage()">نعم بالتأكيد! 😍</button>
+            <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">لا 😢</button>
+        </div>
+    </div>
+
+    <div id="detailsPage" style="display: none;">
+        <div class="gif-container">🍕⏰</div>
+        <h1>رائع جداً! سأكون أسعد شخص 🥰</h1>
+        <p>الآن، اختاري ما يناسبكِ لنرتب كل شيء:</p>
+        
+        <div class="form-group">
+            <label for="dateInput">اليوم والوقت المناسب لكِ:</label>
+            <input type="datetime-local" id="dateInput">
+        </div>
+        
+        <div class="form-group">
+            <label for="foodInput">نوع الأكلة التي تشتهينها:</label>
+            <select id="foodInput">
+                <option value="سوشي 🍣">سوشي 🍣</option>
+                <option value="بيتزا أو باستا إيطالية 🍕">إيطالي (بيتزا/باستا) 🍕</option>
+                <option value="برجر وفرايز 🍔">برجر وجانك فود 🍔</option>
+                <option value="مشويات وأكل شرقي 🥩">مشويات وأكل شرقي 🥩</option>
+                <option value="وافل وكريب وحلويات 🥞">حلى وقهوة فقط ☕</option>
+                <option value="أي شيء من اختيارك 🌟">على ذوقك أنت 🌟</option>
+            </select>
+        </div>
+
+        <button id="yesBtn" style="width: 100%;" onclick="sendToWhatsApp()">تأكيد وإرسال الدعوة 🚀</button>
+    </div>
+</div>
+
+<script>
+    // ⚠️ اكتب رقمك هنا بالصيغة الدولية مباشرة داخل علامات التنصيص
+    // مثال لمصر: "201012345678"
+    const myWhatsAppNumber = "01200868448"; 
+
+    function moveNoButton() {
+        const noBtn = document.getElementById('noBtn');
+        const container = document.querySelector('.btn-group');
+        
+        const maxX = container.clientWidth - noBtn.clientWidth;
+        const maxY = 120; 
+        
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor((Math.random() * maxY) - (maxY/2));
+        
+        noBtn.style.left = randomX + 'px';
+        noBtn.style.top = randomY + 'px';
+    }
+
+    function nextPage() {
+        document.getElementById('questionPage').style.display = 'none';
+        document.getElementById('detailsPage').style.display = 'block';
+    }
+
+    function sendToWhatsApp() {
+        const dateTime = document.getElementById('dateInput').value;
+        const food = document.getElementById('foodInput').value;
+
+        if (!dateTime) {
+            alert('من فضلكِ اختاري الوقت أولاً! ⏰');
+            return;
+        }
+
+        // تنسيق التاريخ والوقت
+        const formattedDate = new Date(dateTime).toLocaleString('ar-EG', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+
+        // نص الرسالة
+        const message = `أنا موافقة على الديت يا فستكه! 🥰✨\n\n📅 الموعد: ${formattedDate}\n🍕 الأكل: ${food}\n\nجهّز نفسك! 😉`;
+        
+        // رابط واتساب المحسن والمباشر لتجنب حظر المتصفحات
+        const whatsappURL = `https://whatsapp.com{myWhatsAppNumber}&text=${encodeURIComponent(message)}`;
+        
+        // تغيير مكان الصفحة الحالية مباشرة بدلاً من فتح نافذة جديدة منعاً للحظر
+        window.location.href = whatsappURL;
+    }
+</script>
+
+</body>
+</html>
